@@ -153,7 +153,26 @@ void graphC::render() {
 		ImGui::End();
 		//odrives
 
-		ImGui::Begin("odrv 0");
+		ImGui::Begin("odrv control");
+			//switch odrive control
+		if (ImGui::Button("drv1", ImVec2(65, 20))) {
+			std::string strBuffer("%%1\n");
+			odriveComPort->SendData( strBuffer.c_str(), strBuffer.length());
+			imguiLog.push_back(strBuffer);
+		}
+		ImGui::SameLine(75);
+		if (ImGui::Button("drv2", ImVec2(65, 20))) {
+			std::string strBuffer("%%2\n");
+			odriveComPort->SendData(strBuffer.c_str(), strBuffer.length());
+			imguiLog.push_back(strBuffer);
+		}
+		ImGui::SameLine(150);
+		if (ImGui::Button("drv3", ImVec2(65, 20))) {
+			std::string strBuffer("%%3\n");
+			odriveComPort->SendData( strBuffer.c_str(), strBuffer.length());
+			imguiLog.push_back(strBuffer);
+		}
+		
 		ImGui::BeginChild("axis0",ImVec2(200,120));
 		ImGui::Text("axis0");
 		//calibrate
