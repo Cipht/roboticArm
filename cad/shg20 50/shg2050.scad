@@ -24,8 +24,8 @@ module shg2050_2(g=1){
             
             cylinder(d=95,h=13.5);
             translate([0,0,3])cylinder(d=90,h=25.5);
-            translate([0,0,3])cylinder(d=75.3,h=40);
-            translate([0,0,3])cylinder(d=52,h=53); 
+            translate([0,0,3])cylinder(d=75.7,h=40);
+            translate([0,0,3])cylinder(d=52.5,h=53); 
             if(g==1){
                 translate([0,0,-16])gearModule_2();
             }

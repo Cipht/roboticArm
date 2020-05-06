@@ -93,13 +93,3 @@ translate([-10,-60,0])  cylinder(d=4,h=50);
 translate([10,-60,0])  cylinder(d=4,h=50);
 }
 }//end full union
-
-
-//%translate([85,0,55])rotate([0,90,0])shg2050_2();
-
-/*
-translate([49,0,125])rotate([0,0,90])union(){
-    import("C:/Users/stein/OneDrive/scad/cad/motor Enclosure_Natural_Cooling.stl");
-    import("C:/Users/stein/OneDrive/scad/cad/motor Enclosure_Plate.stl");
-}
-*/
