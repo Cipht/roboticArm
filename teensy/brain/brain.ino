@@ -30,7 +30,7 @@ void setup() {
   Serial2.begin(115200);//odrive 2
   Serial3.begin(115200);//odrive 3
 
-  Serial4.begin(2000000);//remote control
+  Serial5.begin(2000000);//remote control
 	
   memset(remoteSBuffer,0,rcBuffSize);
   
@@ -140,34 +140,34 @@ long motPos[6] = {0,0,0,0,0,0};
 int incDistance = 100;
 void moveActiveMotors(int dist){
 	if(motActive[0]){
-		motPos[0]+=incDistance;
+		motPos[0]+=dist;
 		Serial1.print("t 0 ");
 		Serial1.println(motPos[0]);
 	}	
 	if(motActive[1]){
-		motPos[1]+=incDistance;
+		motPos[1]+=dist;
 		Serial1.print("t 1 ");
 		Serial1.println(motPos[1]);
 	}	
 
 	if(motActive[2]){
-		motPos[2]+=incDistance;
+		motPos[2]+=dist;
 		Serial2.print("t 0 ");
 		Serial2.println(motPos[2]);
 	}	
 	if(motActive[3]){
-		motPos[3]+=incDistance;
+		motPos[3]+=dist;
 		Serial2.print("t 1 ");
 		Serial2.println(motPos[3]);
 	}	
 
 	if(motActive[4]){
-		motPos[4]+=incDistance;
+		motPos[4]+=dist;
 		Serial3.print("t 0 ");
 		Serial3.println(motPos[4]);
 	}	
 	if(motActive[5]){
-		motPos[5]+=incDistance;
+		motPos[5]+=dist;
 		Serial3.print("t 1 ");
 		Serial3.println(motPos[5]);
 	}	
@@ -175,56 +175,68 @@ void moveActiveMotors(int dist){
 };
 
 bool rcKeyPressed(char keycode1,char keycode2){
-	if(keycode1 == "+" && keycode2 == "+"){//dial plus
+  
+	if(keycode1 == '+' && keycode2 == '+'){//dial plus
 		moveActiveMotors(incDistance);	
 	}
-	else if(keycode1 == "-" && keycode2 == "-"){//dial minus
+	else if(keycode1 == '-' && keycode2 == '-'){//dial minus
 		moveActiveMotors(-incDistance);	
 	}
 
-	if(keycode1 == "M"){//set motor active 
-		if(keycode2=="0") motActive[0] = true;
-    if(keycode2=="1") motActive[1] = true;
-    if(keycode2=="2") motActive[2] = true;
-    if(keycode2=="3") motActive[3] = true;
-    if(keycode2=="4") motActive[4] = true;
-    if(keycode2=="5") motActive[5] = true;
+	if(keycode1 == 'M'){//set motor active 
+		if(keycode2=='0') motActive[0] = true;
+    if(keycode2=='1') motActive[1] = true;
+    if(keycode2=='2') motActive[2] = true;
+    if(keycode2=='3') motActive[3] = true;
+    if(keycode2=='4') motActive[4] = true;
+    if(keycode2=='5') motActive[5] = true;
 	}
+
+ if(keycode1 == 'X'){
+    if(keycode2=='0') incDistance = 1;
+    if(keycode2=='1') incDistance = 20;
+    if(keycode2=='2') incDistance = 100;
+    if(keycode2=='3') incDistance = 250;
+    if(keycode2=='4') incDistance = 500;
+    if(keycode2=='5') incDistance = 1000;
+ }
 };
 
 bool rcKeyReleased(char keycode1,char keycode2){
 
-	if(keycode1 == "M"){//disable motor
-    if(keycode2=="0") motActive[0] = false;
-		if(keycode2=="1") motActive[1] = false;
-    if(keycode2=="2") motActive[2] = false;
-    if(keycode2=="3") motActive[3] = false;s
-    if(keycode2=="4") motActive[4] = false;
-    if(keycode2=="5") motActive[5] = false;
+	if(keycode1 == 'M'){//disable motor
+    if(keycode2=='0') motActive[0] = false;
+		if(keycode2=='1') motActive[1] = false;
+    if(keycode2=='2') motActive[2] = false;
+    if(keycode2=='3') motActive[3] = false;
+    if(keycode2=='4') motActive[4] = false;
+    if(keycode2=='5') motActive[5] = false;
 	}
 };
 
 bool rcCommand(char* controlCmd,int len){
-    if(len == 5 && controlCmd[0] == '&' && controlCmd[1] == '&'){//change active odrive
-		  rcKeyPressed(controlCmd+2,controlCmd+3);
+  
+    if(len == 6 && controlCmd[0] == '&' && controlCmd[1] == '&'){//change active odrive
+		  
+		  rcKeyPressed(controlCmd[2],controlCmd[3]);
 		  return true;
     }
-    else if(len == 5 && controlCmd[0] == '&' && controlCmd[1] == '^'){//change active odrive
-		  rcKeyReleased(controlCmd+2,controlCmd+3);
+    else if(len == 6 && controlCmd[0] == '&' && controlCmd[1] == '^'){//change active odrive
+		  rcKeyReleased(controlCmd[2],controlCmd[3]);
 		  return true;
 	  }
 	  return false;
 };
 
 void readRemoteControl(){
-  if(Serial4.available()){
+  if(Serial5.available()){
     if(remoteSBuffLen < rcBuffSize){
-      char charIn = Serial4.read();
+      char charIn = Serial5.read();
       remoteSBuffer[remoteSBuffLen] = charIn;
       remoteSBuffLen++;
       if(charIn == '\n'){//return char found push entire string and move to start
-	rcCommand(remoteSBuffer,remoteSBuffLen);
-	remoteSBuffLen = 0;
+	      rcCommand(remoteSBuffer,remoteSBuffLen);
+	      remoteSBuffLen = 0;
       }
     }
     else{//max buffer size push it and clear

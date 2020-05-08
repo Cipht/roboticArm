@@ -25,7 +25,7 @@ int main(){
 	std::fstream logStream;
 	logStream.open(logName, std::fstream::in | std::fstream::out | std::fstream::app);
 	graphWindow.odriveComPort = &serial;
-	if (serial.Open(5, 2000000)) {
+	if (serial.Open(3, 2000000)) {
 		std::cout << "Port opened successfully" << std::endl;
 		sf::Clock timerPoint;
 		timerPoint.restart();

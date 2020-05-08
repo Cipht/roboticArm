@@ -27,7 +27,7 @@ module gearModule_small(){
 rotate([180,0,0])difference(){
     union(){
 translate([0,0,0])cylinder(d=35,h=5);
-        translate([0,0,10])gear(mm_per_tooth = mmteeth, thickness = 12,number_of_teeth = 30,hole_diameter = 0);
+        translate([0,0,10])gear(mm_per_tooth = mmteeth, thickness = 13,number_of_teeth = 30,hole_diameter = 0);
     }
 
 for (i = [0:1:5]){
@@ -36,7 +36,7 @@ for (i = [0:1:5]){
 
 translate([0,0,-0.1]) cylinder(d=30,h=3.1);
 
-//translate([0,0,-0.1-5]) cylinder(d=10,h=100);
+translate([0,0,-0.1-5]) cylinder(d=4,h=100);
 
 }
 }
@@ -80,6 +80,6 @@ translate([3.6,-3,-7.5])cube([1,6,13]);
 
 gearModule();
 translate([0,50,0])gearModule_mot();
-translate([0,100,0])gearModule_small();
+!translate([0,100,0])gearModule_small();
 translate([50,0,0]) gearModule_2();
 translate([50,50,0]) gearModule_2_mot();

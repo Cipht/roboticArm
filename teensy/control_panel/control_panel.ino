@@ -18,7 +18,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(2000000);//pc
   
-  Serial4.begin(2000000);//remote control
+  Serial5.begin(2000000);//remote control
   
   pinMode(ledpin,OUTPUT);
   digitalWrite(ledpin,HIGH);
@@ -26,8 +26,6 @@ void setup() {
   pinMode(pulsepin1,INPUT);
   
   pinMode(pulsepin2,INPUT);
-
-
 
   pinMode(posPin[0], INPUT_PULLUP);
   pinMode(posPin[1], INPUT_PULLUP);
@@ -59,7 +57,7 @@ char checkWheel(){
     prepin1 = pin1;
     prepin2 = pin2;
     Mouse.scroll(1);
-    Serial4.println("&&++");
+    Serial5.println("&&++");
     return '+';
   }
   
@@ -68,7 +66,7 @@ char checkWheel(){
     prepin1 = pin1;
     prepin2 = pin2;
     Mouse.scroll(-1);
-    Serial4.println("&&--");
+    Serial5.println("&&--");
     return '-';
   }
   
@@ -80,15 +78,24 @@ char checkWheel(){
 void keyPressed( int row,int col) {
  Serial.printf("%i %i down\n",row,col);
  if(row == 0){
-  Serial4.print("&&M");
-  Serial4.println(col);
+  Serial5.print("&&M");
+  Serial5.println(col);
+ }
+
+  if(row == 1){
+  Serial5.print("&&X");
+  Serial5.println(col);
  }
 }
 void keyReleased(int row, int col) {
  Serial.printf("%i %i up\n",row,col);
   if(row == 0){
-    Serial4.print("&^M");
-    Serial4.println(col);
+    Serial5.print("&^M");
+    Serial5.println(col);
+  }
+  if(row == 1){
+    Serial5.print("&^X");
+    Serial5.println(col);
   }
 }
 int row = 0;
