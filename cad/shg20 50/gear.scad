@@ -80,6 +80,6 @@ translate([3.6,-3,-7.5])cube([1,6,13]);
 
 gearModule();
 translate([0,50,0])gearModule_mot();
-!translate([0,100,0])gearModule_small();
+translate([0,100,0])gearModule_small();
 translate([50,0,0]) gearModule_2();
 translate([50,50,0]) gearModule_2_mot();
